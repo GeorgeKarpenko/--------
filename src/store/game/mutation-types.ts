@@ -1,0 +1,6 @@
+export enum GameMutationTypes {
+  SET_PAUSE = 'SET_PAUSE',
+  SET_TRIGGER_GAME = 'SET_TRIGGER_GAME',
+  SET_TIME = 'SET_TIME',
+  SET_COUNT_MOVE = 'SET_COUNT_MOVE',
+}
