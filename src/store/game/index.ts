@@ -3,7 +3,7 @@ import { getters } from './getters';
 import { actions } from './actions';
 import { mutations } from './mutations';
 import { state as gameState, State} from './state';
-import { RootState } from '../../types';
+import { RootState } from '../types';
 
 export const state = gameState
 

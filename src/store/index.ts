@@ -15,6 +15,8 @@ import { settings } from './settings';
 //     settings //store module 2
 //   }
 // });
+
+
 const store: StoreOptions<RootState> = {
   state: {
     version: '1.0.0' // a simple property
