@@ -1,7 +1,7 @@
 import { ref, Ref, computed, watch } from 'vue'
 import { Cell } from './Cell'
 import { useStore } from '@/store';
-import { GameActionTypes } from '@/store/modules/game/action-types';
+import { GameActionTypes } from '@/store/game/action-types';
 
 const store = useStore();
 
