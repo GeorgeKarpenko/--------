@@ -6,7 +6,7 @@ import { SettingsActionTypes } from '@/store/settings/action-types';
 import Modal from "@/components/Modal.vue"
 
 const namespace: string = 'settings/';
-const music = computed(() => store.state.settings.musicSelection);
+const music = computed(() => store.state.settings.musicSelection.value);
 const musicVolun = computed(() => store.state.settings.musicVolume);
 const loaded = ref(true);
 Promise.all([
