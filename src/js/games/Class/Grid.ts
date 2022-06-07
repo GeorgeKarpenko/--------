@@ -1,7 +1,6 @@
 import { Cell, Tag } from './Cell'
 import TurnBasedGame from './TurnBasedGame'
 import { computed } from "vue"
-
 import store from '@/store';
 
 const tagsColumns = computed(() => store.state.settings.tagsColumns.value)
@@ -56,10 +55,9 @@ export default class Grid extends TurnBasedGame {
     }
 
     get gameEndCheck() {
-        for (let i = 0; i < this.#cells.length; i++) {
-            if (this.#cells[i].tag.value !== i) return false
-        }
-        return true
+        return this.#cells.every((element, index) => {
+            return element.tag.value === index
+        })
     }
 
     
