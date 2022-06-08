@@ -5,9 +5,10 @@ import { GameActionTypes } from '@/store/game/action-types';
 
 
 const namespace: string = 'game/';
-let start!: ReturnType<typeof setTimeout>
+// TODO Название переменных
+let start!: ReturnType<typeof setTimeout> 
 const sec = ref(0)
-const pause = computed<boolean>({
+const isPause = computed<boolean>({
     get() {
         return store.state.game.pause
     },
@@ -49,9 +50,9 @@ watch(
     }
 )
 watch(
-    () => pause.value,
-    (pause) => {
-        if (!pause) {
+    () => isPause.value,
+    (isPause) => {
+        if (!isPause) {
             start = setInterval(() => {
                 sec.value++
             }, 1000)
@@ -63,36 +64,28 @@ watch(
 watch(
     () => triggerGame.value,
     (triggerGame) => {
-        pause.value = !triggerGame
+        isPause.value = !triggerGame
     }
 )
 
-export default class TurnBasedGame {
+export default abstract class TurnBasedGame {
+    // TODO
+    // private moves!: object[]
 
-    private moves!: object[]
-
-    move(cell: Cell): void {}
-    gameStart(): void {}
-    moveCheck(cell: Cell): boolean { return true }
-    private _gameEndCheck!: boolean
-    public get gameEndCheck(): boolean {
-        return this._gameEndCheck
-    }
-    public set gameEndCheck(value: boolean) {
-        this._gameEndCheck = value
-    }
+    protected abstract move(cell: Cell): void
+    protected abstract moveCheck(cell: Cell): boolean
+    protected abstract get gameEndCheck(): boolean
 
     defaultVariables() {
-        pause.value = false
+        isPause.value = false
         triggerGame.value = true
         countMove.value = 0
         sec.value = 0
-        this.moves = []
-        this.gameStart()
+        // this.moves = []
     }
 
     basicMoveLogic(cell: Cell) {
-        if (!this.moveCheck(cell) || pause.value || !triggerGame.value) return
+        if (!this.moveCheck(cell) || isPause.value || !triggerGame.value) return
 
         this.move(cell)
         countMove.value++

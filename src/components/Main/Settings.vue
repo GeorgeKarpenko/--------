@@ -7,6 +7,7 @@ import { SettingsActionTypes } from '@/store/settings/action-types';
 import InputsComponent from "@/components/Input/InputsComponent.vue";
 
 const namespace: string = 'settings/';
+const audioSrc = computed(() => store.state.game.audioSrc)
 const audio = ref<HTMLAudioElement>();
 onMounted(() => {
   watch(
@@ -26,11 +27,11 @@ const settings = computed<State>({
     return store.dispatch(namespace + SettingsActionTypes.UP_DATA, value)
   }
 })
-const onPage = JSON.parse(JSON.stringify(settings.value))
+const initialSettings = JSON.parse(JSON.stringify(settings.value))
 
-function exit(save = false) {
+function exitInMain(save = false) {
   if (!save) {
-    settings.value = onPage
+    settings.value = initialSettings
   }
   router.push({name: 'Main'})
 }
@@ -39,10 +40,10 @@ function exit(save = false) {
 </script>
 
 <template>
-  <audio ref="audio" src="/src/assets/music/Звук_Игры.mp3"></audio>
+  <audio ref="audio" :src="audioSrc"></audio>
   <div class="container">
     <inputs-component v-model="settings" name="Настройки"></inputs-component>
-    <div class="upSetting"><button @click="exit()" class="cancel">Отмена</button> <button @click="exit(true)">Сохранить</button></div>
+    <div class="upSetting"><button @click="exitInMain()" class="cancel">Отмена</button> <button @click="exitInMain(true)">Сохранить</button></div>
   </div>
 </template>
 

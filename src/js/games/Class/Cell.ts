@@ -19,6 +19,7 @@ export class Cell {
     }
 }
 export class Tag {
+    // TODO Замена value на index
     readonly value;
     opacity = 1;
     readonly x;

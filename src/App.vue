@@ -13,7 +13,6 @@ Promise.all([
     store.dispatch(namespace + SettingsActionTypes.IMGS),
     store.dispatch(namespace + SettingsActionTypes.MUSIC_SELECTION)
     ]).then(values => {
-        console.log(values)
         loaded.value = false
 })
 
@@ -23,7 +22,7 @@ const audio = ref<HTMLAudioElement>();
 onMounted(() => {
     watch(() => triggerAudio.value,
         (triggerAudio) => {
-            if (triggerAudio){
+            if (triggerAudio) {
                 audio.value!.src = music.value
                 audio.value!.play()
                 audio.value!.muted=false
@@ -32,7 +31,7 @@ onMounted(() => {
     )
     watch(() => music.value,
         () => {
-            if (triggerAudio.value){
+            if (triggerAudio.value) {
                 console.log(audio.value)
                 audio.value!.src = music.value
                 audio.value!.currentTime = 0;
@@ -42,11 +41,10 @@ onMounted(() => {
             }
         }
     )
-
     watch(() => musicVolun.value.value,
         (musicVolume) => {
           audio.value!.volume = 1 / musicVolun.value.max * musicVolume;
-            if (!triggerAudio.value){
+            if (!triggerAudio.value) {
                 triggerModal.value = true
             }
         }

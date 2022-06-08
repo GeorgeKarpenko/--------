@@ -15,7 +15,6 @@ const triggerGame = computed<boolean>({
         return store.dispatch(namespace + GameActionTypes.TRIGGER_GAME, value)
     }
 })
-
 </script>
 
 <template>

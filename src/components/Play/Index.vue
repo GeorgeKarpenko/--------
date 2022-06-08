@@ -27,6 +27,8 @@ onMounted(() => {
         (triggerGame) => {
             if (triggerGame) {
                 grid.defaultVariables()
+                grid.tagOpacity.opacity = 0
+                grid.shuffleCells()
                 game.value!.style.setProperty('--aside-x', `${grid.tagOpacity.x + 1}`)
                 game.value!.style.setProperty('--aside-y', `${grid.tagOpacity.y + 1}`)
                 game.value!.classList.remove('game-end')

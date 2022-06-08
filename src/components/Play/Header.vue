@@ -9,6 +9,7 @@ import SVGMenu from "@/components/SVG/Menu.vue"
 const namespace: string = 'game/'
 const countMove = computed(() => store.state.game.countMove)
 const time = computed(() => store.state.game.time)
+const audioSrc = computed(() => store.state.game.audioSrc)
 const pause = computed<boolean>({
     get() {
         return store.state.game.pause
@@ -36,7 +37,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <audio ref="audio" src="/src/assets/music/Звук_Игры.mp3"></audio>
+    <audio ref="audio" :src="audioSrc"></audio> 
     <header>
         <nav>
             <p>Время: {{ time }}</p>
