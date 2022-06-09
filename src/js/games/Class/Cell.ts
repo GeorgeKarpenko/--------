@@ -21,6 +21,7 @@ export class Cell {
 export class Tag {
     // TODO Замена value на index
     readonly value;
+    // TODO opacity public
     opacity = 1;
     readonly x;
     readonly y;

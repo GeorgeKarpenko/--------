@@ -20,21 +20,22 @@ onMounted(() => {
     game.value!.style.setProperty('--tags-rows', `${tagsRows.value}`)
     game.value!.style.setProperty('--aside-x', `${grid.tagOpacity.x + 1}`)
     game.value!.style.setProperty('--aside-y', `${grid.tagOpacity.y + 1}`)
-    game.value!.style.setProperty('--background-image', 'url(' + new URL(`${img.value}`, import.meta.url).href + ')')
+    game.value!.style.setProperty('--background-image', `url(${img.value})`)
+    game.value!.style.setProperty('--no-full-image-opacity', '1')
 
     watch(
         () => triggerGame.value,
         (triggerGame) => {
             if (triggerGame) {
                 grid.defaultVariables()
-                grid.tagOpacity.opacity = 0
-                grid.shuffleCells()
                 game.value!.style.setProperty('--aside-x', `${grid.tagOpacity.x + 1}`)
                 game.value!.style.setProperty('--aside-y', `${grid.tagOpacity.y + 1}`)
-                game.value!.classList.remove('game-end')
+                game.value!.style.setProperty('--no-full-image-opacity', '1')
+                grid.shuffleCells()
             } else {
-                game.value!.classList.add('game-end')
-                grid.tagOpacity.opacity = 1
+                setTimeout(() => {
+                    game.value!.style.setProperty('--no-full-image-opacity', '0')
+                }, 300);
             }
         }
     )
@@ -45,24 +46,27 @@ onMounted(() => {
     <div ref="game" class="game">
         <HeaderComponent />
         <aside></aside>
-        <div id="game-board">
-            <transition-group name="moving">
-                <div
-                    v-for="cell in grid.cells"
-                    @click="grid.basicMoveLogic(cell)"
-                    :key="cell.tag.value"
-                    :style="`--x: ${cell.tag.x}; --y: ${cell.tag.y}; --opacity: ${cell.tag.opacity}`"
-                    class="tag"
-                >
-                </div>
-            </transition-group>
-        </div>
+        <main>
+            <div id="game-board">
+                <transition-group name="moving">
+                    <div
+                        v-for="cell in grid.cells"
+                        @click="grid.basicMoveLogic(cell)"
+                        :key="cell.tag.value"
+                        :style="`--x: ${cell.tag.x}; --y: ${cell.tag.y}; --opacity: ${cell.tag.opacity}`"
+                        class="tag"
+                    >
+                    </div>
+                </transition-group>
+            </div>
+        </main>
     </div>
     <ModalGame />
 </template>
 
 <style scoped>
 .game {
+    --no-full-image-opacity: 1;
     --header-height: 50px;
     --size-foto-and-game-board: min(98vw, calc(45vmax - var(--header-height)));
     --tag-gap: max(0.5vmin, 3px);
@@ -74,9 +78,16 @@ onMounted(() => {
     align-content: flex-start;
     justify-content: center;
 }
-.game-end {
+/* .game-end {
     --tag-gap: 0px;
     --tag-border-radius: 0px;
+} */
+
+main {
+    background-image: var(--background-image);
+    background-size: 100%;
+    background-repeat: no-repeat;
+    border-radius: var(--tag-border-radius);
 }
 
 #game-board {
@@ -86,7 +97,9 @@ onMounted(() => {
     grid-template-columns: repeat(var(--tags-columns), var(--tag-size-columns));
     grid-template-rows: repeat(var(--tags-rows), var(--tag-size-rows));
     gap: var(--tag-gap);
-    transition: .3s;
+    background-color: #fff;
+    opacity: var(--no-full-image-opacity);
+    transition: opacity .3s;
 }
 
 .tag {
@@ -118,6 +131,8 @@ aside::before  {
     margin-top: calc(var(--height) * (var(--aside-y) - 1));
     margin-left: calc(var(--width) * (var(--aside-x) - 1));
     background: #fff;
+    opacity: var(--no-full-image-opacity);
+    transition: opacity .3s;
 }
 .moving-move {
     transition: transform .3s;
